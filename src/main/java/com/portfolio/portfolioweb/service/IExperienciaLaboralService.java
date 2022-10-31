@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface IExperienciaLaboralService {
     public List<ExperienciaLaboral> findById_persona(int id);
+    public List<ExperienciaLaboral> findByPersonaUser(String email);
     public List<ExperienciaLaboral> getExperiencia();
     public void saveExperiencia(ExperienciaLaboral exp);
     public void deleteExperiencia(int id);

@@ -16,4 +16,8 @@ public interface ExperienciaLaboralRepository extends JpaRepository<ExperienciaL
     
     @Query(value = "SELECT * FROM experiencia_laboral  WHERE id_persona =?1",nativeQuery = true)
     List<ExperienciaLaboral> findById_persona( int id);
+    
+    @Query(value ="SELECT * FROM experiencia_laboral INNER JOIN persona ON experiencia_laboral.id_persona=persona.id where email=?1",
+            nativeQuery = true)
+     List<ExperienciaLaboral> findByPersonaUser( String email);
 }

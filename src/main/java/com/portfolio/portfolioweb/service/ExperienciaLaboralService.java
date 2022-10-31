@@ -37,5 +37,9 @@ public class ExperienciaLaboralService implements IExperienciaLaboralService{
      public List<ExperienciaLaboral> findById_persona(int id){
          return expRepo.findById_persona(id);
      }
+      @Override
+     public List<ExperienciaLaboral> findByPersonaUser(String email){
+         return expRepo.findByPersonaUser(email);
+     }
     
 }

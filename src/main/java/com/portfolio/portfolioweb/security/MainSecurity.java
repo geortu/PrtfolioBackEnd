@@ -59,7 +59,7 @@ public class MainSecurity { //extends WebSecurityConfigurerAdapter{
         .exceptionHandling().authenticationEntryPoint(jwtEntryPoint).and()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
         .authorizeRequests().antMatchers("/auth/**").permitAll()
-        //.antMatchers("/api/test/**").permitAll()
+        .antMatchers("/persona/lista").permitAll()         
         .anyRequest().authenticated();
     
     http.authenticationProvider(authenticationProvider());

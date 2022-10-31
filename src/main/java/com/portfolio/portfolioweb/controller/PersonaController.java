@@ -6,6 +6,7 @@ package com.portfolio.portfolioweb.controller;
 
 import com.portfolio.portfolioweb.dto.PersonaDto;
 import com.portfolio.portfolioweb.model.Domicilio;
+import com.portfolio.portfolioweb.model.ExperienciaLaboral;
 import com.portfolio.portfolioweb.model.Persona;
 import com.portfolio.portfolioweb.security.dto.NuevoUsuario;
 import com.portfolio.portfolioweb.security.enumerador.RolNombre;
@@ -36,6 +37,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,7 +53,8 @@ public class PersonaController {
       private final static org.slf4j.Logger logger=LoggerFactory.getLogger(PersonaController.class);
     
    
-    @GetMapping("/persona/{email}")    
+    @GetMapping("/persona/{email}")
+    @ResponseBody    
     public Persona getPersonaByUser(@PathVariable String email){    
      
        // if(!interPersona.existsByEmail(email))
@@ -66,7 +69,8 @@ public class PersonaController {
            
     
 }
-    @GetMapping("/persona/detalle/{id}")    
+    @GetMapping("/persona/detalle/{id}")
+    @ResponseBody    
     public Persona getPersonaById(@PathVariable int id){    
      
         //if(!interPersona.existsById(id))
@@ -93,8 +97,19 @@ public class PersonaController {
 }
     @GetMapping("/persona/lista")
     public List<Persona> getPersonas(){
+        List<Persona> lista=interPersona.getPersonas();
+         for (Persona per : lista) {
+             byte[] datafotoPerfil =per.getFoto_perfil();
+             per.setFoto_perfil(interPersona.decompressImage(datafotoPerfil));
+             byte[] datafotoPortada =per.getFoto_portada();
+             per.setFoto_portada(interPersona.decompressImage(datafotoPortada));
+              for (ExperienciaLaboral ex : per.getExperienciasLaborales()){
+                 byte[] datalogo =ex.getLogo();
+                 ex.setLogo(interPersona.decompressImage(datalogo));
+              }
+        }
     
-    return interPersona.getPersonas();
+    return lista;
 }
     @PostMapping("/persona/crear")
     public String createPersona(@RequestBody Persona per){     
@@ -108,7 +123,7 @@ public class PersonaController {
         interPersona.deletePersona(id);
         return "La persona fue eliminada correctamente";
     }
-   @PutMapping("/persona/editar/{id}")
+  @PutMapping("/persona/editar/{id}")  
   public Persona updatePersona(@PathVariable int id,@ModelAttribute PersonaDto personaDto,BindingResult bindingresult){
              Persona persona=interPersona.findPersona(id);
          try {
@@ -118,11 +133,10 @@ public class PersonaController {
              
              persona.setSobre_mi(personaDto.getSobre_mi());
              persona.setOcupacion(personaDto.getOcupacion());
-             if(!personaDto.getFoto_perfil().isEmpty()){             
+             if(personaDto.getFoto_perfil()!=null){             
                persona.setFoto_perfil(interPersona.compressImage(personaDto.getFoto_perfil().getBytes()));
              }
-             if(!personaDto.getFoto_portada().isEmpty()){
-              
+             if(personaDto.getFoto_portada()!=null){              
                persona.setFoto_portada(interPersona.compressImage(personaDto.getFoto_portada().getBytes()));
              }
              persona.setApellido(personaDto.getApellido());
@@ -136,17 +150,18 @@ public class PersonaController {
              domicilio.setNumero(personaDto.getNumero());
              domicilio.setProvincia(personaDto.getProvincia());
              
-             interDomicilio.saveDomicilio(domicilio);
-             interPersona.savePersona(persona);
+             //interDomicilio.saveDomicilio(domicilio);
+             interPersona.savePersona(persona); 
+            
+             } catch (IOException ex) {
+             logger.error("Aca Fallo");   
+             }
              
-             
-             
+               return persona;
              
              //return new ResponseEntity("Cambios Guardados",HttpStatus.CREATED);
             
-         } catch (IOException ex) {
-             logger.error("Aca Fallo");
-                  }
-         return persona;
+         
+        
     }
 }

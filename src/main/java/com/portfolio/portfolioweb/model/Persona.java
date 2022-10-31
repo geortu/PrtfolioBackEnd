@@ -6,17 +6,22 @@ package com.portfolio.portfolioweb.model;
 
 
 import com.portfolio.portfolioweb.security.model.Usuario;
+import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 
@@ -26,9 +31,12 @@ import lombok.Setter;
 
 
 
+
 @Getter @Setter
-@Entity
-public class Persona {
+@Entity(name = "persona")
+@Table
+public class Persona implements Serializable {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -61,6 +69,13 @@ public class Persona {
     @OneToOne (cascade = CascadeType.ALL)  
     @JoinColumn(name="id_domicilio")
     private Domicilio domicilio;
+    
+    @OneToMany(mappedBy = "persona",orphanRemoval = true)   
+    private Set<ExperienciaLaboral> ExperienciasLaborales= new HashSet<>();
+    
+    
+   // @OneToMany(mappedBy = "persona")   
+    //private Set<Educacion> Educaciones= new HashSet<>();
     
     
     

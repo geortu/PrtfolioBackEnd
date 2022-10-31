@@ -13,6 +13,6 @@ public class ExperienciaLaboralDto {
    private String fecha_fin;
    private String descripcion;
    private MultipartFile logo;
-   private int id_perosona;
+   private int id_persona;
     
 }
