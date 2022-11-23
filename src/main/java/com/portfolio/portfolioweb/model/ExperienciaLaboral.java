@@ -1,12 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package com.portfolio.portfolioweb.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.util.Date;
+
 import javax.persistence.Entity;
 
 import javax.persistence.FetchType;
@@ -37,6 +34,20 @@ public class ExperienciaLaboral implements Serializable{
    @ManyToOne()
    @JsonIgnore   
    private Persona persona;
+
+    public ExperienciaLaboral(String nombre_empresa, String puesto, String fecha_fin, String descripcion, byte[] logo, Persona persona) {
+        this.nombre_empresa = nombre_empresa;
+        this.puesto = puesto;
+        this.fecha_fin = fecha_fin;
+        this.descripcion = descripcion;
+        this.logo = logo;
+        this.persona = persona;
+    }
+
+    public ExperienciaLaboral() {
+    }
    
-    
+   
+   
+     
 }

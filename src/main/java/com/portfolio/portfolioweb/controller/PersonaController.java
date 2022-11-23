@@ -6,13 +6,9 @@ package com.portfolio.portfolioweb.controller;
 
 import com.portfolio.portfolioweb.dto.PersonaDto;
 import com.portfolio.portfolioweb.model.Domicilio;
+import com.portfolio.portfolioweb.model.Educacion;
 import com.portfolio.portfolioweb.model.ExperienciaLaboral;
 import com.portfolio.portfolioweb.model.Persona;
-import com.portfolio.portfolioweb.security.dto.NuevoUsuario;
-import com.portfolio.portfolioweb.security.enumerador.RolNombre;
-import com.portfolio.portfolioweb.security.jwt.JwtEntryPoint;
-import com.portfolio.portfolioweb.security.model.Rol;
-import com.portfolio.portfolioweb.security.model.Usuario;
 import com.portfolio.portfolioweb.service.IDomicilioService;
 import com.portfolio.portfolioweb.service.IPersonaService;
 import java.io.IOException;
@@ -97,26 +93,49 @@ public class PersonaController {
 }
     @GetMapping("/persona/lista")
     public List<Persona> getPersonas(){
-        List<Persona> lista=interPersona.getPersonas();
-         for (Persona per : lista) {
-             byte[] datafotoPerfil =per.getFoto_perfil();
-             per.setFoto_perfil(interPersona.decompressImage(datafotoPerfil));
-             byte[] datafotoPortada =per.getFoto_portada();
-             per.setFoto_portada(interPersona.decompressImage(datafotoPortada));
-              for (ExperienciaLaboral ex : per.getExperienciasLaborales()){
-                 byte[] datalogo =ex.getLogo();
-                 ex.setLogo(interPersona.decompressImage(datalogo));
-              }
+        List<Persona> lista = interPersona.getPersonas();
+        for (Persona per : lista) {
+            if (per.getFoto_perfil() != null) {
+                byte[] datafotoPerfil = per.getFoto_perfil();
+                per.setFoto_perfil(interPersona.decompressImage(datafotoPerfil));
+            }
+            if (per.getFoto_portada() != null) {
+                byte[] datafotoPortada = per.getFoto_portada();
+                per.setFoto_portada(interPersona.decompressImage(datafotoPortada));
+            }
+
+            for (ExperienciaLaboral ex : per.getExperienciasLaborales()) {
+                if (ex.getLogo() != null) {
+                    byte[] datalogo = ex.getLogo();
+                    ex.setLogo(interPersona.decompressImage(datalogo));
+                }
+
+            }
+            for (Educacion edu : per.getEducaciones()) {
+                if (edu.getLogo() != null) {
+                    byte[] datalogo = edu.getLogo();
+                    edu.setLogo(interPersona.decompressImage(datalogo));
+                }
+
+            }
+
         }
-    
-    return lista;
-}
+        return lista;
+    }
     @PostMapping("/persona/crear")
-    public String createPersona(@RequestBody Persona per){     
+    public Persona createPersona(@RequestBody Persona per){    
         
         
         interPersona.savePersona(per);
-        return "La persona fue creada correctamente";
+        if (per.getFoto_perfil() != null) {
+                byte[] datafotoPerfil = per.getFoto_perfil();
+                per.setFoto_perfil(interPersona.decompressImage(datafotoPerfil));
+            }
+            if (per.getFoto_portada() != null) {
+                byte[] datafotoPortada = per.getFoto_portada();
+                per.setFoto_portada(interPersona.decompressImage(datafotoPortada));
+            }
+        return per;
     }
     @DeleteMapping("/persona/borrar/{id}")
     public String deletePersona(@PathVariable int id){
@@ -143,6 +162,7 @@ public class PersonaController {
              persona.setNombre(personaDto.getNombre());
              persona.setFecha_nacimiento(personaDto.getFecha_nacimiento());
              persona.setNacionalidad(personaDto.getNacionalidad());
+             persona.setTelefono(personaDto.getTelefono());
              
              
              Domicilio domicilio= interDomicilio.findDomicilio(persona.getDomicilio().getId());
@@ -152,10 +172,17 @@ public class PersonaController {
              
              //interDomicilio.saveDomicilio(domicilio);
              interPersona.savePersona(persona); 
-            
-             } catch (IOException ex) {
-             logger.error("Aca Fallo");   
-             }
+            } catch (IOException ex) {
+          logger.error("Aca Fallo");
+      }
+            if (persona.getFoto_perfil() != null) {
+                byte[] datafotoPerfil = persona.getFoto_perfil();
+                persona.setFoto_perfil(interPersona.decompressImage(datafotoPerfil));
+            }
+            if (persona.getFoto_portada() != null) {
+                byte[] datafotoPortada = persona.getFoto_portada();
+                persona.setFoto_portada(interPersona.decompressImage(datafotoPortada));
+            }
              
                return persona;
              

@@ -4,6 +4,7 @@
  */
 package com.portfolio.portfolioweb.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,11 +12,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-@Entity
+@Entity(name = "educacion")
+@Table
 public class Educacion implements Serializable{
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,9 +31,24 @@ public class Educacion implements Serializable{
   private String fin;
   private byte[] logo;
    
-   @ManyToOne
-   @JoinColumn(name="id_persona")
+  
+   @ManyToOne()
+   @JsonIgnore   
    private Persona persona;
+
+    public Educacion(String establecimiento, String titulo, String carrera, double puntaje, String inicio, String fin, byte[] logo, Persona persona) {
+        this.establecimiento = establecimiento;
+        this.titulo = titulo;
+        this.carrera = carrera;
+        this.puntaje = puntaje;
+        this.inicio = inicio;
+        this.fin = fin;
+        this.logo = logo;
+        this.persona = persona;
+    }
+
+    public Educacion() {
+    }
   
 			
     

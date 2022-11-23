@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ExperienciaLaboralRepository extends JpaRepository<ExperienciaLaboral, Integer>{
     
-    @Query(value = "SELECT * FROM experiencia_laboral  WHERE id_persona =?1",nativeQuery = true)
+    @Query(value = "SELECT * FROM experiencia_laboral  WHERE persona_id =?1",nativeQuery = true)
     List<ExperienciaLaboral> findById_persona( int id);
     
     @Query(value ="SELECT * FROM experiencia_laboral INNER JOIN persona ON experiencia_laboral.id_persona=persona.id where email=?1",

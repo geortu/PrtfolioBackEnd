@@ -64,6 +64,7 @@ public class Persona implements Serializable {
     private String ocupacion;
     @NotNull
     private String email;
+    private String telefono;
     
     
     @OneToOne (cascade = CascadeType.ALL)  
@@ -73,16 +74,19 @@ public class Persona implements Serializable {
     @OneToMany(mappedBy = "persona",orphanRemoval = true)   
     private Set<ExperienciaLaboral> ExperienciasLaborales= new HashSet<>();
     
+    @OneToMany(mappedBy = "persona",orphanRemoval = true)   
+    private Set<Educacion> Educaciones= new HashSet<>();
     
-   // @OneToMany(mappedBy = "persona")   
-    //private Set<Educacion> Educaciones= new HashSet<>();
+    @OneToMany(mappedBy = "persona",orphanRemoval = true)   
+    private Set<Skill> Skilles= new HashSet<>();
+    
+  
     
     
     
     
     
-    //@OneToMany(mappedBy = "persona",cascade = CascadeType.ALL)
-    //private List<ExperienciaLaboral> listaexperiencia;
+   
 
     public Persona( String nombre, String apellido, String fecha_nacimiento, String nacionalidad, String email, Domicilio domicilio) {
         
@@ -90,7 +94,7 @@ public class Persona implements Serializable {
         this.apellido = apellido;
         this.fecha_nacimiento = fecha_nacimiento;
         this.nacionalidad = nacionalidad;
-        this.email = email;
+        this.email = email;        
         this.domicilio = domicilio;
     }
 

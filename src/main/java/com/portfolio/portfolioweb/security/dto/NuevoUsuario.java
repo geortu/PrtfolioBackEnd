@@ -17,7 +17,7 @@ public class NuevoUsuario {
     private String nombre;   
     @NotBlank
     @Email
-    private String NombreUsuario;
+    private String nombreUsuario;
     private String apellido;   
     @NotBlank
     private String fechaNacimiento;
