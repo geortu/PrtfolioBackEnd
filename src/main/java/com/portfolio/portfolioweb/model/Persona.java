@@ -80,6 +80,9 @@ public class Persona implements Serializable {
     @OneToMany(mappedBy = "persona",orphanRemoval = true)   
     private Set<Skill> Skilles= new HashSet<>();
     
+     @OneToMany(mappedBy = "persona",orphanRemoval = true)   
+     private Set<Skill> proyectos= new HashSet<>();
+    
   
     
     
