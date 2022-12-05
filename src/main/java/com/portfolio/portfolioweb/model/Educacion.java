@@ -6,6 +6,7 @@ package com.portfolio.portfolioweb.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,7 +30,9 @@ public class Educacion implements Serializable{
   private double puntaje;
   private String inicio;
   private String fin;
-  private byte[] logo;
+   @Column(name = "logo", length = 100000)
+   private byte[] logo;
+  
    
   
    @ManyToOne()

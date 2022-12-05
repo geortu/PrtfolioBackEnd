@@ -54,9 +54,9 @@ public class Persona implements Serializable {
     //private String foto_portada;
     
    // private String foto_perfil;
-    @Column(name = "foto_portada", length = 1000)
+    @Column(name = "foto_portada", length = 100000)
     private byte [] foto_portada;
-    @Column(name = "foto_perfil", length = 1000)
+    @Column(name = "foto_perfil", length = 100000)
     private byte [] foto_perfil;
     
     private String sobre_mi;
@@ -81,7 +81,7 @@ public class Persona implements Serializable {
     private Set<Skill> Skilles= new HashSet<>();
     
      @OneToMany(mappedBy = "persona",orphanRemoval = true)   
-     private Set<Skill> proyectos= new HashSet<>();
+     private Set<Proyecto> proyectos= new HashSet<>();
     
   
     

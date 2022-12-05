@@ -3,6 +3,7 @@ package com.portfolio.portfolioweb.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import javax.persistence.Column;
 
 import javax.persistence.Entity;
 
@@ -29,6 +30,7 @@ public class ExperienciaLaboral implements Serializable{
    private String fecha_inicio;
    private String fecha_fin;
    private String descripcion;
+    @Column(name = "logo", length = 100000)
    private byte[] logo;
    
    @ManyToOne()
